@@ -2,14 +2,12 @@
 #include <string>
 
 using namespace std;
-
-// Usamos long long para manejar bloques de números más grandes.
 using BigNum = long long;
 
 const int MAX_CAPACIDAD = 1000;
 
 // TAMAÑO DEL BLOQUE:2 bytes. 
-//El módulo 'n' (p*q) > 65535 !!!!!
+//El módulo 'n' (p*q) > 65535
 const int BLOCK_SIZE = 2; 
 
 class RSABlock {
@@ -90,10 +88,8 @@ public:
                 blockValue = blockValue * 256 + c;
             }
 
-            //Cifrar
+            //Cifra
             BigNum cipherNum = modPow(blockValue, publicKey_e, publicKey_n);
-            
-            //Save
             encryptedArray[size] = cipherNum;
             size++;
         }
@@ -105,16 +101,14 @@ public:
         
         for (int i = 0; i < size; i++) {
             BigNum c = encryptedArray[i];
-            
-            //Descifrar al estilo RSA
             BigNum m = modPow(c, privateKey_d, n);
 
             //Desempaquetar
             char tempBlock[BLOCK_SIZE];
             
             for (int j = BLOCK_SIZE - 1; j >= 0; j--) {
-                tempBlock[j] = (char)(m % 256); // Extraer último char
-                m /= 256;                       // Quitar último char
+                tempBlock[j] = (char)(m % 256); // Extraer 
+                m /= 256;                       // Quitar 
             }
 
             // Añadir
@@ -122,13 +116,13 @@ public:
                 decryptedFull += tempBlock[j];
             }
         }
-        //El string resultante tendrá los espacios de relleno al final!!! TENER EN CUENTA
+        //El string resultante tendra los espacios de relleno al final #TODO
         return decryptedFull;
     }
 };
 
 int main() {
-    // El módulo N (p*q) DEBE ser mayor que el bloque máximo!!!!!
+    // El módulo N (p*q) DEBE ser mayor que el bloque max
     BigNum p = 307; 
     BigNum q = 313; 
 
